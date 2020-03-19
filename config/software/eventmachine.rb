@@ -3,7 +3,7 @@ name "eventmachine"
 dependency "ruby"
 
 default_version "1.2.0.1"
-source url: "https://github.com/eventmachine/eventmachine/archive/v1.2.0.1.tar.gz"
+source url: "https://github.com/eventmachine/eventmachine/archive/v1.2.0.1.tar.gz",
        md5: "f2fd0f4a268f333cc8f965170c24918a"
 
 relative_path "eventmachine-1.2.0.1"
