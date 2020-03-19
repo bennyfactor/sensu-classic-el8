@@ -2,14 +2,10 @@ name "eventmachine"
 
 dependency "ruby"
 
-source git: "git@github.com:eventmachine/eventmachine.git"
+default_version "1.2.0.1"
+source url: "https://github.com/eventmachine/eventmachine/archive/v1.2.0.1.tar.gz"
 
-# TODO: use a proper version
-default_version "master"
-
-version "master" do
-  source git: "git@github.com:eventmachine/eventmachine.git"
-end
+relative_path "eventmachine-1.2.0.1"
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
