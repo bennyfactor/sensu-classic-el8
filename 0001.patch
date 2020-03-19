@@ -1,0 +1,66 @@
+From 522d66e7e922bfac8ade6f33338c4ee00a654f64 Mon Sep 17 00:00:00 2001
+From: Justin Kolberg <amd.prophet@gmail.com>
+Date: Mon, 4 Apr 2016 12:28:22 -0700
+Subject: [PATCH] use upstream eventmachine's master branch
+
+---
+ .../patches/eventmachine/pure-ruby-fixes.patch   | 14 --------------
+ config/software/eventmachine.rb                  | 16 ++++++----------
+ 2 files changed, 6 insertions(+), 24 deletions(-)
+ delete mode 100644 config/patches/eventmachine/pure-ruby-fixes.patch
+
+diff --git a/config/patches/eventmachine/pure-ruby-fixes.patch b/config/patches/eventmachine/pure-ruby-fixes.patch
+deleted file mode 100644
+index 7a9b4f0..0000000
+--- a/config/patches/eventmachine/pure-ruby-fixes.patch
++++ /dev/null
+@@ -1,14 +0,0 @@
+---- eventmachine/lib/em/pure_ruby.rb.old	2016-03-21 11:25:02.000000000 -0700
+-+++ eventmachine/lib/em/pure_ruby.rb	2016-03-21 11:23:37.000000000 -0700
+-@@ -58,5 +58,10 @@
+-     end
+-     
+-     # @private
+-+    def set_pending_connect_timeout a, b
+-+      nil
+-+    end
+-+
+-+    # @private
+-     def run_machine
+-       Reactor.instance.run
+-     end
+\ No newline at end of file
+diff --git a/config/software/eventmachine.rb b/config/software/eventmachine.rb
+index fea43da..205d9bc 100644
+--- a/config/software/eventmachine.rb
++++ b/config/software/eventmachine.rb
+@@ -2,12 +2,13 @@
+ 
+ dependency "ruby"
+ 
+-source git: "git@github.com:portertech/eventmachine.git"
++source git: "git@github.com:eventmachine/eventmachine.git"
+ 
+-default_version "hotfix/aix-compile-backport"
++# TODO: use a proper version
++default_version "master"
+ 
+-version "hotfix/aix-compile-backport" do
+-  source git: "git@github.com:portertech/eventmachine.git"
++version "master" do
++  source git: "git@github.com:eventmachine/eventmachine.git"
+ end
+ 
+ build do
+@@ -24,10 +25,5 @@
+   command "rake compile", env: env
+   command "rake gem", env: env
+ 
+-  command "gem install pkg/eventmachine-1.0.9.1.gem", env: env
+-
+-  command "cd #{install_dir}/embedded/lib/ruby/gems/2.3.0/gems/eventmachine-1.0.9.1"
+-
+-  patch_target = "#{install_dir}/embedded/lib/ruby/gems/2.3.0/gems/eventmachine-1.0.9.1/lib/em/pure_ruby.rb"
+-  patch source: "pure-ruby-fixes.patch", plevel: 1, env: patch_env, target: patch_target
++  command "gem install pkg/eventmachine-1.2.0.1.gem", env: env
+ end
