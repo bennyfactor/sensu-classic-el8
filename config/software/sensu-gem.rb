@@ -18,7 +18,7 @@ build do
   command "gem fetch sensu -v #{version}", env: env
 
   command "gem unpack sensu-#{version}.gem", env: env
-  command "LC_CTYPE=C && LANG=C && find ./sensu-#{version} -type f -exec sed -i '' 's/1.0.9.1/1.2.0.1/g' {} \\\;", env: env
+  command "LC_CTYPE=C && LANG=C && find ./sensu-#{version} -type f -exec sed 's/1.0.9.1/1.2.0.1/g' \{\} \\\;", env: env
   command "cd sensu-#{version}&& gem build sensu.gemspec", env: env
 
 
