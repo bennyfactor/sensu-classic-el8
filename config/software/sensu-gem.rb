@@ -15,8 +15,15 @@ build do
 
   files_dir = "#{project.files_path}/#{name}"
 
-  gem "install sensu" \
-      " --version '#{version}'" \
+
+  command "gem fetch sensu -v #{version}", env: env
+
+  command "gem unpack sensu-#{version}.gem", env: env
+  command "LC_CTYPE=C && LANG=C && find ./sensu-#{version} -type f -exec sed -i '' 's/1.0.9.1/1.2.0.1/g' {} \;", env: env
+  command "cd sensu-#{version}&& gem build sensu.gemspec", env: env
+
+
+  gem "install sensu-#{version}/sensu-#{version}.gem" \
       " --bindir '#{install_dir}/embedded/bin'" \
       " --no-ri --no-rdoc", env: env
 
@@ -26,7 +33,7 @@ build do
   gem "install mixlib-cli" \
       " --version '1.5.0'" \
       " --no-ri --no-rdoc", env: env
-  
+
   gem "install sensu-plugin" \
       " --version '1.2.0'" \
       " --no-ri --no-rdoc", env: env
